@@ -28,7 +28,8 @@ export default defineConfig({
   server: {
     proxy: {
       '/api': {
-        target: 'http://localhost:8880', // 后端地址
+        //target: 'http://localhost:8880', // 后端地址
+        target: 'http://123.207.32.32:5000',
         changeOrigin: true,
         rewrite: (path) => path.replace(/^\/api/, '') // 将 /api 替换为空字符串
       }
