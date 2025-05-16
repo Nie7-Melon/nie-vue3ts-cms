@@ -19,8 +19,11 @@ const useLoginStore = defineStore('login', {
     //id: '',
     //name: ''
     //存放用户登录的详细信息和菜单信息
-    userInfo: {},
-    userMenus: []
+    //userInfo: {},
+    //userMenus: []
+    //进行本地缓存后，改为这样
+    userInfo: localCache.getCache('userInfo') ?? {},
+    userMenus: localCache.getCache('userMenus') ?? []
   }),
   actions: {
     //async accountLoginAction(account: any) {
@@ -52,7 +55,9 @@ const useLoginStore = defineStore('login', {
       const userMenus = userMenusResult.data
       this.userMenus = userMenus
       console.log('userMenus', userMenus)
-      //保存获取的结果到缓存
+      //6. 保存获取的结果到本地缓存
+      //放到store中的数据是一种内存缓存，刷新会消失，
+      //要一直存在要进行本地缓存
       localCache.setCache('useInfo', this.userInfo)
       localCache.setCache('userMenus', userMenus)
       // 跳转到首页

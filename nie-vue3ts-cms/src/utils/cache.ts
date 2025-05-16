@@ -35,7 +35,9 @@ class HYCache {
   deleteCache(key: string) {
     this.storage.removeItem(key)
   }
-
+  removeCache(key: string) {
+    this.storage.removeItem(key)
+  }
   clearCache() {
     this.storage.clear()
   }
