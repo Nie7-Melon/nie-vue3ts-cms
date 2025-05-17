@@ -62,11 +62,13 @@ export function mapMenusToRoutes(userMenus: any[]) {
 export function mapPathToMenu(path: string, userMenus: any[]) {
   for (const menu of userMenus) {
     for (const submenu of menu.children) {
+      //子菜单的路径等于要匹配的路径，返回这个子菜单给main-menu.vue
       if (submenu.url === path) {
         return submenu
       }
     }
   }
+  //return null //AI检查添加，明确返回null，而不是undefined
 }
 
 interface IBreadcrumbs {

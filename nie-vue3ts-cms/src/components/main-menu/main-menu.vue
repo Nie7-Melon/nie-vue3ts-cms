@@ -8,7 +8,7 @@
     <!-- 菜单栏内容 -->
     <div class="menu">
       <el-menu
-        default-active="3"
+        :default-active="defaultActive"
         :collapse="isFold"
         text-color="#b7bdc3"
         active-text-color="#fff"
@@ -27,7 +27,9 @@
             </template>
             <!-- 继续获取子菜单 -->
             <template v-for="subitem in item.children" :key="subitem.id">
-              <el-menu-item :index="subitem.path" @click="handleItemClick(subitem)">
+              <!-- <el-menu-item :index="subitem.path" @click="handleItemClick(subitem)"> -->
+              <!-- 被选中子菜单不高亮展示的原因：上边错误代码，下面正确代码 -->
+              <el-menu-item :index="subitem.id + ''" @click="handleItemClick(subitem)">
                 {{ subitem.name }}
               </el-menu-item>
             </template>
@@ -100,6 +102,14 @@ function handleItemClick(item: any) {
   const url = item.url
   router.push(url)
 }
+// 3.ElMenu的默认菜单
+const route = useRoute()
+const defaultActive = computed(() => {
+  const pathMenu = mapPathToMenu(route.path, userMenus)
+  console.log('pathMenu', pathMenu)
+  console.log("pathMenu.id + ''", pathMenu.id + '') //返回一个数字字符串
+  return pathMenu.id + ''
+})
 </script>
 <style lang="less" scoped>
 .main-menu {
