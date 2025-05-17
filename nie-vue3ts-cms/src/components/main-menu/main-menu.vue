@@ -15,7 +15,7 @@
         background-color="#001529"
       >
         <!-- 动态获取菜单：先遍历整个菜单，用id作为Key， -->
-        <template v-for="item in userMenus.data" :key="item.id">
+        <template v-for="item in userMenus" :key="item.id">
           <!-- 加上 :index="item.id + ''" 这样就知道要展开哪个，不会全部展开了 -->
           <el-sub-menu :index="item.id + ''">
             <template #title>
@@ -27,7 +27,7 @@
             </template>
             <!-- 继续获取子菜单 -->
             <template v-for="subitem in item.children" :key="subitem.id">
-              <el-menu-item :index="subitem.path">
+              <el-menu-item :index="subitem.path" @click="handleItemClick(subitem)">
                 {{ subitem.name }}
               </el-menu-item>
             </template>
@@ -79,6 +79,11 @@
 
 <script setup lang="ts">
 import useLoginStore from '@/store/login/login'
+import { computed } from 'vue'
+import { useRoute, useRouter } from 'vue-router'
+import { mapPathToMenu } from '@/utils/map-menus'
+
+// 1.获取动态的菜单
 const loginStore = useLoginStore()
 //获取菜单，同时使用loginStore了，现在页面的pinia里有菜单的数据
 const userMenus = loginStore.userMenus
@@ -89,6 +94,12 @@ defineProps({
     default: false
   }
 })
+// 2.监听item的点击
+const router = useRouter()
+function handleItemClick(item: any) {
+  const url = item.url
+  router.push(url)
+}
 </script>
 <style lang="less" scoped>
 .main-menu {

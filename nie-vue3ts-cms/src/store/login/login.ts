@@ -3,7 +3,8 @@ import { accountLoginRequest, getRoleMenus, getUserById } from '@/service/login/
 import { localCache } from '@/utils/cache'
 import { defineStore } from 'pinia'
 import { LOGIN_TOKEN } from '@/types/constants'
-
+//动态添加路由
+import { mapMenusToRoutes } from '@/utils/map-menus'
 interface ILoginState {
   token: string
   userInfo: any
@@ -52,23 +53,48 @@ const useLoginStore = defineStore('login', {
       // 5.根据role的id获取菜单
       const roleId = userInfo.data.role.id
       const userMenusResult = await getRoleMenus(roleId)
-      const userMenus = userMenusResult.data
-      this.userMenus = userMenus
-      console.log('userMenus', userMenus)
+      //到底用几个.data的数据，这里出问题了，挨个打印检查
+      //而且不该const userMenu接收data后的数据，和仓库定义数据重名我后面会乱
+      // console.log('userMenusResult', userMenusResult)
+      //console.log('userMenus（ userMenusResult.data）', userMenus)
+      // console.log('userMenus', userMenus)
+      //console.log('userMenus.data（ userMenusResult.data.data）', userMenus.data)
+      //console.log('this.userMenus', this.userMenus)
+      const userMenusData = userMenusResult.data.data
+      console.log('userMenusData', userMenusData) //这个是期望保存的数据
+      this.userMenus = userMenusData
       //6. 保存获取的结果到本地缓存
       //放到store中的数据是一种内存缓存，刷新会消失，
       //要一直存在要进行本地缓存
-      localCache.setCache('useInfo', this.userInfo)
-      localCache.setCache('userMenus', userMenus)
+      //这里的拼写错了啊啊啊啊，是userInfo，不是userinfo
+      localCache.setCache('userInfo', this.userInfo)
+      localCache.setCache('userMenus', this.userMenus)
+
+      //7. 动态添加路由
+      //这里开始卡住，因为传的少了.data,重新修改让userMenu存的就是.data后的数据
+      //const routes = mapMenusToRoutes(userMenus.data)
+      const routes = mapMenusToRoutes(this.userMenus)
+      routes.forEach((route) => router.addRoute('main', route))
+
       // 跳转到首页
       router.push('/main')
     },
 
-    loadLocalDataAction() {
-      //this.token = localCache.getCache('token')
-      //this.userInfo = localCache.getCache('userInfo')
-      // this.userMenus = localCache.getCache('userMenus')
-      console.log('------')
+    loadLocalCacheAction() {
+      // 用户进行刷新时，默认加载数据
+      const token = localCache.getCache(LOGIN_TOKEN)
+      const userInfo = localCache.getCache('userInfo')
+      const userMenus = localCache.getCache('userMenus')
+      //如果这三个同时有值，说明用户现在是登录的
+      if (token && userInfo && userMenus) {
+        this.token = token
+        this.userInfo = userInfo
+        this.userMenus = userMenus
+
+        //此时再动态添加路由
+        const routes = mapMenusToRoutes(userMenus)
+        routes.forEach((route) => router.addRoute('main', route))
+      }
     }
   }
 })

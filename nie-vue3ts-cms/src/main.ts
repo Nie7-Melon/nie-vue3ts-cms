@@ -10,12 +10,16 @@ import 'element-plus/theme-chalk/el-message.css'
 //element-ui-icon小图标的全局注册，
 //也可以在global / register - icons.ts中封装进去更好看，但对我来说有些难，没有用
 import * as ElementPlusIconsVue from '@element-plus/icons-vue'
+import useLoginStore from './store/login/login'
 
 const app = createApp(App)
 for (const [key, component] of Object.entries(ElementPlusIconsVue)) {
   app.component(key, component)
 }
-
-app.use(router)
 app.use(pinia)
+//要再use(pinia)下面去用loginStore，不然pinia还没初始化完成
+const loginStore = useLoginStore()
+loginStore.loadLocalCacheAction()
+//等把所有的路由都加载完再去用路由
+app.use(router)
 app.mount('#app')

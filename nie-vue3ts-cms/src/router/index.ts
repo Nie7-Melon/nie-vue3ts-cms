@@ -1,7 +1,7 @@
 import { createRouter, createWebHashHistory } from 'vue-router'
 import { LOGIN_TOKEN } from '@/types/constants'
 import { localCache } from '@/utils/cache'
-//import { firstMenu } from '@/utils/map-menus'
+import { firstMenu } from '@/utils/map-menus'
 const router = createRouter({
   history: createWebHashHistory(),
   routes: [
@@ -10,6 +10,7 @@ const router = createRouter({
       redirect: '/main'
     },
     {
+      name: 'main', //必须添加，不然动态添加路由找不到main
       path: '/main',
       component: () => import('@/views/main/main.vue')
     },
@@ -35,9 +36,10 @@ router.beforeEach((to) => {
     return '/login'
   }
 
-  // 如果是进入到main
-  // if (to.path === '/main') {
-  // return firstMenu?.url
-  //  }
+  // 如果是进入到main，如果firstMenu 存在
+  // 返回firstMenu的url属性作为重定向目标，自动跳转到第一个子菜单页面
+  if (to.path === '/main') {
+    return firstMenu?.url
+  }
 })
 export default router
