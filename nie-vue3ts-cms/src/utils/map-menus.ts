@@ -33,6 +33,7 @@ export function mapMenusToRoutes(userMenus: any[]) {
     for (const submenu of menu.children) {
       //用户菜单中的url和本地路由的path进行匹配，如果本地路由地址和用户菜单地址一样
       //那么就把这个菜单对应的路由添加到数组routes中
+      //目标：完善首页头部面包屑
       const route = localRoutes.find((item) => item.path === submenu.url)
       //如果用户菜单中的 URL 和本地路由的 path 相匹配
       if (route) {
@@ -83,9 +84,9 @@ export function mapPathToBreadcrumbs(path: string, userMenus: any[]) {
   for (const menu of userMenus) {
     for (const submenu of menu.children) {
       if (submenu.url === path) {
-        // 1.顶层菜单
+        // 面包屑里先加父级菜单
         breadcrumbs.push({ name: menu.name, path: menu.url })
-        // 2.匹配菜单
+        // 再加子菜单
         breadcrumbs.push({ name: submenu.name, path: submenu.url })
       }
     }
