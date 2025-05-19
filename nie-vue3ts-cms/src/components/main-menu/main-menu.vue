@@ -106,8 +106,8 @@ function handleItemClick(item: any) {
 const route = useRoute()
 const defaultActive = computed(() => {
   const pathMenu = mapPathToMenu(route.path, userMenus)
-  console.log('pathMenu', pathMenu)
-  console.log("pathMenu.id + ''", pathMenu.id + '') //返回一个数字字符串
+  //console.log('pathMenu', pathMenu)
+  //console.log("pathMenu.id + ''", pathMenu.id + '') //返回一个数字字符串
   return pathMenu.id + ''
 })
 </script>

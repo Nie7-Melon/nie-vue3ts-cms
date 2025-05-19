@@ -30,7 +30,7 @@
 import { storeToRefs } from 'pinia'
 import useSystemStore from '@/store/main/system/system'
 
-// 1.发起action，请求usersList的数据
+// 1.调用仓库的查询数据请求，发起action，请求usersList的数据
 const systemStore = useSystemStore()
 systemStore.postUsersListAction()
 
@@ -50,7 +50,9 @@ const { usersList } = storeToRefs(systemStore)
   justify-content: space-between;
   align-items: flex-end;
   margin-bottom: 10px;
-
+  .el-button--primary {
+    --el-button-bg-color: rgb(98, 106, 239);
+  }
   .title {
     font-size: 22px;
   }
