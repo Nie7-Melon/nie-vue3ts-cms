@@ -57,23 +57,31 @@
 <script setup lang="ts">
 import { reactive, ref } from 'vue'
 import type { ElForm } from 'element-plus'
+// 发送给父组件，定义自定义事件
+const emit = defineEmits(['queryClick', 'resetClick'])
 
 const searchForm = reactive({
   name: '',
   realname: '',
   cellphone: '',
   enable: 1,
-  createAt: []
+  //createAt: [] 这样会出错，服务器会认为没有和空数组匹配的项，都不符合，不会返回数据
+  createAt: ''
 })
 
 // 重置操作
 const formRef = ref<InstanceType<typeof ElForm>>()
 function handleResetClick() {
+  // form中的数据全部重置
   formRef.value?.resetFields()
+
+  // 将事件出去, content内部重新发送网络请求
+  emit('resetClick')
 }
 //查询
 function handleQueryClick() {
-  console.log('handleQueryClick')
+  console.log('searchForm', searchForm)
+  emit('queryClick', searchForm)
 }
 </script>
 
