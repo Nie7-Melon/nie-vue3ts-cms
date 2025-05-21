@@ -34,7 +34,15 @@
 
         <el-table-column align="center" label="操作" width="150px">
           <template #default="scope">
-            <el-button size="small" icon="Edit" type="primary" text> 编辑 </el-button>
+            <el-button
+              size="small"
+              icon="Edit"
+              type="primary"
+              text
+              @click="handleEditBtnClick(scope.row)"
+            >
+              编辑
+            </el-button>
             <el-button
               size="small"
               icon="Delete"
@@ -115,6 +123,10 @@ function handleDeleteBtnClick(id: number) {
 //新建
 function handleNewUserClick() {
   emit('newClick')
+}
+//编辑
+function handleEditBtnClick(itemData: any) {
+  emit('editClick', itemData)
 }
 //把这个方法暴露出去才能让父组件调用
 defineExpose({ fetchUserListData })

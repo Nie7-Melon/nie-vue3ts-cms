@@ -1,7 +1,7 @@
 <template>
   <div class="user">
     <user-search @query-click="handleQueryClick" @reset-click="handleResetClick" />
-    <user-content ref="contentRef" @new-click="handleNewClick" />
+    <user-content ref="contentRef" @new-click="handleNewClick" @edit-click="handleEditClick" />
   </div>
   <user-modal ref="modalRef" />
 </template>
@@ -29,6 +29,11 @@ function handleResetClick() {
 const modalRef = ref<InstanceType<typeof UserModal>>()
 function handleNewClick() {
   modalRef.value?.setModalVisible()
+}
+//编辑功能
+function handleEditClick(itemData: any) {
+  console.log(itemData)
+  modalRef.value?.setModalVisible(false, itemData)
 }
 </script>
 
