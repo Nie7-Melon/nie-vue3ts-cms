@@ -2,7 +2,7 @@
   <div class="content">
     <div class="header">
       <h3 class="title">用户列表</h3>
-      <el-button type="primary">新建用户</el-button>
+      <el-button type="primary" @click="handleNewUserClick">新建用户</el-button>
     </div>
     <div class="table">
       <el-table :data="usersList" border style="width: 100%">
@@ -33,8 +33,18 @@
         </el-table-column>
 
         <el-table-column align="center" label="操作" width="150px">
-          <el-button size="small" icon="Edit" type="primary" text> 编辑 </el-button>
-          <el-button size="small" icon="Delete" type="danger" text> 删除 </el-button>
+          <template #default="scope">
+            <el-button size="small" icon="Edit" type="primary" text> 编辑 </el-button>
+            <el-button
+              size="small"
+              icon="Delete"
+              type="danger"
+              text
+              @click="handleDeleteBtnClick(scope.row.id)"
+            >
+              删除
+            </el-button>
+          </template>
         </el-table-column>
       </el-table>
     </div>
@@ -96,6 +106,15 @@ function fetchUserListData(formData: any = {}) {
   console.log('queryInfo', queryInfo)
   // 发起网络请求
   systemStore.postUsersListAction(queryInfo)
+}
+//删除
+function handleDeleteBtnClick(id: number) {
+  console.log('触发ID', id)
+  systemStore.deleteUserByIdAction(id)
+}
+//新建
+function handleNewUserClick() {
+  emit('newClick')
 }
 //把这个方法暴露出去才能让父组件调用
 defineExpose({ fetchUserListData })

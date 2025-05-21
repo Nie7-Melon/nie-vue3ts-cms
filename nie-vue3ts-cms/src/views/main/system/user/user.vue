@@ -1,8 +1,9 @@
 <template>
   <div class="user">
     <user-search @query-click="handleQueryClick" @reset-click="handleResetClick" />
-    <user-content ref="contentRef" />
+    <user-content ref="contentRef" @new-click="handleNewClick" />
   </div>
+  <user-modal ref="modalRef" />
 </template>
 
 <script setup lang="ts">
@@ -22,6 +23,12 @@ function handleQueryClick(formData: any) {
 //重置操作
 function handleResetClick() {
   contentRef.value?.fetchUserListData()
+}
+
+// 新增对modal组件的操作
+const modalRef = ref<InstanceType<typeof UserModal>>()
+function handleNewClick() {
+  modalRef.value?.setModalVisible()
 }
 </script>
 

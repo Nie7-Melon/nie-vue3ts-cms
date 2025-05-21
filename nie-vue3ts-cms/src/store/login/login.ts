@@ -3,6 +3,7 @@ import { accountLoginRequest, getRoleMenus, getUserById } from '@/service/login/
 import { localCache } from '@/utils/cache'
 import { defineStore } from 'pinia'
 import { LOGIN_TOKEN } from '@/types/constants'
+import useMainStore from '@/store/main/main'
 //动态添加路由
 import { mapMenusToRoutes } from '@/utils/map-menus'
 interface ILoginState {
@@ -76,6 +77,9 @@ const useLoginStore = defineStore('login', {
       const routes = mapMenusToRoutes(this.userMenus)
       routes.forEach((route) => router.addRoute('main', route))
 
+      //8.请求所有roles/departments数据
+      const mainStore = useMainStore()
+      mainStore.fetchEntireDataAction()
       // 跳转到首页
       router.push('/main')
     },
@@ -90,7 +94,9 @@ const useLoginStore = defineStore('login', {
         this.token = token
         this.userInfo = userInfo
         this.userMenus = userMenus
-
+        //刷新后再请求所有roles/departments数据
+        const mainStore = useMainStore()
+        mainStore.fetchEntireDataAction()
         //此时再动态添加路由
         const routes = mapMenusToRoutes(userMenus)
         routes.forEach((route) => router.addRoute('main', route))
