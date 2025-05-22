@@ -2,7 +2,7 @@
   <div class="main-menu">
     <!-- 菜单栏上侧logo -->
     <div class="logo">
-      <img class="img" src="@/assets/img/logo.svg" alt="" />
+      <img class="img" src="@/assets/img/cake1.png" alt="" />
       <h2 class="title" v-show="!isFold">聂聂管理系统</h2>
     </div>
     <!-- 菜单栏内容 -->
@@ -114,7 +114,10 @@ const defaultActive = computed(() => {
 <style lang="less" scoped>
 .main-menu {
   height: 100%;
-  background-color: rgb(11, 16, 105);
+  background-color: rgb(124, 90, 144);
+  .el-sub-menu__title {
+    color: #fff;
+  }
 }
 
 .logo {
@@ -132,7 +135,7 @@ const defaultActive = computed(() => {
   }
 
   .title {
-    font-size: 16px;
+    font-size: 20px;
     font-weight: 700;
     color: white;
     white-space: nowrap;
@@ -142,20 +145,24 @@ const defaultActive = computed(() => {
 .el-menu {
   border-right: none;
   user-select: none;
+  .el-menu-item {
+    color: #fff;
+  }
 }
 
 .el-sub-menu {
+  --el-menu-text-color: #fff;
   .el-menu-item {
     padding-left: 50px !important;
-    background-color: #0c2135;
+    background-color: rgb(163, 153, 192);
   }
-
+  background-color: rgb(110, 95, 151);
   .el-menu-item:hover {
     color: #fff;
   }
 
   .el-menu-item.is-active {
-    background-color: #0a60bd;
+    background-color: rgb(232, 217, 195);
   }
 }
 </style>

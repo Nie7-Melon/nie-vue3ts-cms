@@ -35,7 +35,7 @@ function handleFoldChange(flag: boolean) {
 
 .main-content {
   height: 100%;
-  background-color: aquamarine;
+  background-color: rgb(243, 218, 203);
   .el-aside {
     overflow-x: hidden;
     overflow-y: auto;
