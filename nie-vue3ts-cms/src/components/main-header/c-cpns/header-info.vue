@@ -18,7 +18,10 @@
     <div class="info">
       <el-dropdown>
         <span class="user-info">
-          <el-avatar :size="30" src="avatar1.jpg" />
+          <el-avatar
+            :size="30"
+            src="https://tse4-mm.cn.bing.net/th/id/OIP-C.ESRuV7IaWRGlQE2NAE1juQAAAA?cb=iwc2&rs=1&pid=ImgDetMain"
+          />
           <span class="name">Melon_Nie</span>
         </span>
         <template #dropdown>
