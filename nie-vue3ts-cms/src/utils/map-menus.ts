@@ -93,3 +93,27 @@ export function mapPathToBreadcrumbs(path: string, userMenus: any[]) {
   }
   return breadcrumbs
 }
+/**
+ * 菜单映射到id的列表
+ * @param menuList
+ */
+export function mapMenuListToIds(menuList: any[]) {
+  //要拿到所有的id组合的数组
+  const ids: number[] = []
+  //递归获取id
+  function recurseGetId(menus: any[]) {
+    for (const item of menus) {
+      if (item.children) {
+        //如果遍历的有子菜单，那么再遍历一次
+        recurseGetId(item.children)
+      } else {
+        //如果遍历的没有子菜单，进入了最底部的id，把最底部的id取出来
+        //目标是找到最底层的菜单对应的id，不要父菜单的id，
+        //因为选中父菜单的id会自动把它的子菜单全部选中
+        ids.push(item.id)
+      }
+    }
+  }
+  recurseGetId(menuList)
+  return ids
+}
