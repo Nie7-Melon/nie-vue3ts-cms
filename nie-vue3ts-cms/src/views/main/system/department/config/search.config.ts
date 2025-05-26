@@ -1,4 +1,5 @@
 const searchConfig = {
+  pageName: 'department',
   formItems: [
     {
       //这里增加类型因为不止有input类型，可能还有日期选择等

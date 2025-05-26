@@ -7,9 +7,6 @@ import zhCn from 'element-plus/es/locale/lang/zh-cn'
 <template>
   <el-config-provider :locale="zhCn">
     <div class="app">
-      Hello小聂同学
-      <!-- <router-link to="/main">去main页面</router-link>-->
-      <router-link to="/login">去login页面</router-link>
       <router-view></router-view>
     </div>
   </el-config-provider>

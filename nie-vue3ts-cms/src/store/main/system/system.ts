@@ -11,6 +11,7 @@ import {
 } from '@/service/main/system/system'
 import { defineStore } from 'pinia'
 import type { ISystemState } from './type' //类型规范
+import useMainStore from '../main'
 
 const useSystemStore = defineStore('system', {
   state: (): ISystemState => ({
@@ -83,11 +84,17 @@ const useSystemStore = defineStore('system', {
       const newResult = await newPageData(pageName, pageInfo)
       console.log('newResult', newResult)
       this.postPageListAction(pageName, { offset: 0, size: 10 })
+      //重新获取完整的数据
+      const mainStore = useMainStore()
+      mainStore.fetchEntireDataAction()
     },
     async editPageDataAction(pageName: string, id: number, pageInfo: any) {
       const editResult = await editPageData(pageName, id, pageInfo)
       console.log('editResult', editResult)
       this.postPageListAction(pageName, { offset: 0, size: 10 })
+      //重新获取完整的数据
+      const mainStore = useMainStore()
+      mainStore.fetchEntireDataAction()
     }
   }
 })

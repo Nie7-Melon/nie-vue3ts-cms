@@ -117,3 +117,31 @@ export function mapMenuListToIds(menuList: any[]) {
   recurseGetId(menuList)
   return ids
 }
+
+/**
+ * 从菜单里映射出按钮的权限
+ * @param menuList 菜单的列表
+ * @returns 按钮权限的数组(字符串数组)
+ */
+export function mapMenusToPermissions(menuList: any[]) {
+  const permissions: string[] = []
+  //用递归，遍历传进来的menus
+  //在storage保存的json数据中，有关按钮权限的数据type=3
+  //所以，在递归函数中，判断type=3，就push到permissions中
+  //如果不是第三级，那么可能是第一级可能第二级，拿出来继续做递归
+  //有的只有第二层，没有第三层，再找children为null
+  //此时const item of null会报错，所以如果没有chidren用空数组代替
+  //const item of [] 什么都不会做，相当于不遍历直接结束循环，不会报错
+  function recurseGetPermission(menus: any[]) {
+    for (const item of menus) {
+      if (item.type === 3) {
+        permissions.push(item.permission)
+      } else {
+        recurseGetPermission(item.children ?? [])
+      }
+    }
+  }
+  recurseGetPermission(menuList)
+
+  return permissions
+}

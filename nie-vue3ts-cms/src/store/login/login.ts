@@ -5,13 +5,12 @@ import { defineStore } from 'pinia'
 import { LOGIN_TOKEN } from '@/types/constants'
 import useMainStore from '@/store/main/main'
 //动态添加路由
-import { mapMenusToRoutes } from '@/utils/map-menus'
+import { mapMenusToPermissions, mapMenusToRoutes } from '@/utils/map-menus'
 interface ILoginState {
   token: string
   userInfo: any
   userMenus: any
-  // id: string
-  //name: string
+  permissions: string[]
 }
 
 const useLoginStore = defineStore('login', {
@@ -25,7 +24,8 @@ const useLoginStore = defineStore('login', {
     //userMenus: []
     //进行本地缓存后，改为这样
     userInfo: localCache.getCache('userInfo') ?? {},
-    userMenus: localCache.getCache('userMenus') ?? []
+    userMenus: localCache.getCache('userMenus') ?? [],
+    permissions: []
   }),
   actions: {
     //async accountLoginAction(account: any) {
@@ -71,6 +71,10 @@ const useLoginStore = defineStore('login', {
       localCache.setCache('userInfo', this.userInfo)
       localCache.setCache('userMenus', this.userMenus)
 
+      //9.获取用户按钮权限
+      const permissions = mapMenusToPermissions(userMenusData)
+      this.permissions = permissions
+
       //7. 动态添加路由
       //这里开始卡住，因为传的少了.data,重新修改让userMenu存的就是.data后的数据
       //const routes = mapMenusToRoutes(userMenus.data)
@@ -97,6 +101,10 @@ const useLoginStore = defineStore('login', {
         //刷新后再请求所有roles/departments数据
         const mainStore = useMainStore()
         mainStore.fetchEntireDataAction()
+        //后增，用户刷新时也能获取到按钮权限
+        const permissions = mapMenusToPermissions(userMenus)
+        this.permissions = permissions
+
         //此时再动态添加路由
         const routes = mapMenusToRoutes(userMenus)
         routes.forEach((route) => router.addRoute('main', route))

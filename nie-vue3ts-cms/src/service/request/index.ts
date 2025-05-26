@@ -40,7 +40,7 @@ class HYRequest {
       (config) => {
         // loading/token
         // 全局请求成功拦截逻辑
-        console.log('全局请求拦截器')
+        // console.log('全局请求拦截器')
         return config
       },
       (err) => {
@@ -53,7 +53,7 @@ class HYRequest {
       (res) => {
         //return res.data
         // 全局响应成功拦截逻辑
-        console.log('全局响应拦截器')
+        //console.log('全局响应拦截器')
         return res // 修改点：保留完整响应结构
       },
       (err) => {
