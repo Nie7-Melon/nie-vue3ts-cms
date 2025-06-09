@@ -1,3 +1,4 @@
+（详细笔记请见我的文章https://nie7-melon.github.io/2025/04/15/23-nievuets/）
 ### 登录模块
 **技术栈**：Vue3 + TypeScript + Pinia + Element Plus + Axios  
 #### 核心实现  
