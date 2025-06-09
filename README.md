@@ -44,3 +44,17 @@
    - 父子组件通信：父组件通过`props`将`isFold`传递给Menu子组件，控制`el-menu`的`collapse`属性实现折叠与展开
 3. **菜单与路由动态绑定**
    - 实现菜单点击与页面跳转的无缝衔接,通过router.push(submenu.url)跳转
+### 项目架构优化：组件复用与网络请求封装
+#### 核心实现：
+1. **网络请求三层复用架构**
+   - 三层架构：页面 → Store → Service
+   - 页面层：通过pageName参数传递业务标识（如users/departments），触发增删查改操作
+   - Store 层：统一管理请求逻辑，携带pageName调用 Service
+   - Service 层：基于pageName动态拼接 URL，实现接口通用化
+   - 通过 config.ts 传递 pageName，实现不同业务模块的请求复用
+2. **高阶组件复用方案**
+   - 消除重复代码：将搜索表单、表格内容、操作按钮等通用组件抽离为可配置组件
+   - Search 组件：动态生成搜索表单（支持 Input / 日期选择等组件）
+   - Content 组件：动态渲染表格列（支持自定义插槽、操作列）
+   - Modal 组件：通过配置文件定义表单字段及联动逻辑
+   - 动态配置驱动：通过search.config.ts和content.config.ts定义不同模块页面的展示规则
